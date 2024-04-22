@@ -130,6 +130,22 @@ def delete_empty_folders():
     refresh_listbox()
         
     
+def runall():
+    #get all elements in the list
+    #for every element, run all
+    mylist = listbox.get(0,END)
+    names = list(map(lambda x:x.split(' - ')[0], mylist))
+    for directory in names:
+        image_paths = []
+        for files in os.listdir(directory):
+            if files.split(".")[-1] not in ["jpg","png","jpeg","tiff","webp","jfif"]:
+                continue
+            image_paths.append(os.path.join(directory,files))
+        resize_files(image_paths)
+        makeGrid(image_paths, int(math.sqrt(len(image_paths))), directory)
+        image_paths = []
+    print("all directories are done")
+    tk.messagebox.showinfo("showinfo", "all dirs are done")
     
         
 
@@ -146,6 +162,8 @@ btn_refresh.pack()
 btn_run = tk.Button(root, text="Run", command=run, width=15)
 btn_run.pack()
 
+btn_makeall = tk.Button(root, text="Run all", command=runall, width=15)
+btn_makeall.pack()
 
 
 root.title("Make Grid")
