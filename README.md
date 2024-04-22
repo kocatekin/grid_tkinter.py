@@ -1,2 +1,2 @@
 # grid_tkinter.py
-lists folders and makes grids out of them
+run the program on the parent of the dir we want to create the grid
