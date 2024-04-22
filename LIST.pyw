@@ -110,7 +110,7 @@ def run():
     #some work here
     image_paths = []
     for files in os.listdir(dir):
-        if files.split(".")[-1] not in ["jpg","png","jpeg","tiff","webp"]:
+        if files.split(".")[-1] not in ["jpg","png","jpeg","tiff","webp","jfif"]:
             continue
         image_paths.append(os.path.join(dir,files))
     #print(image_paths)
