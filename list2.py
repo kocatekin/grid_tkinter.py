@@ -88,11 +88,11 @@ def dir_and_count(directory):
     for entry in os.listdir(directory):
         if os.path.isdir(os.path.join(directory,entry)):
             dirs.append(os.path.join(directory,entry))    
-    print(dirs)
+    #print(dirs)
     mydict = {}
     for dir in dirs:
         if len(os.listdir(dir)) != 0:
-            mydict[f"{dir.split('/')[-1]}"] = len(os.listdir(dir))
+            mydict[f"{dir}"] = len(os.listdir(dir))
     
     return dict(sorted(mydict.items(), key=lambda x:x[1], reverse=True))
 
@@ -103,7 +103,7 @@ def refresh_listbox():
     print(f"{file_path}, {type(file_path)}")
     listbox.delete(0,'end')
     result = dir_and_count(file_path)
-    print(result)
+    #print(result)
     keysList = list(result.keys())
     for idx,key in enumerate(list(result.keys())):
         listbox.insert(idx, f"{key} - {result[key]}")
@@ -115,6 +115,7 @@ def run():
     task = task.split(" - ")[0]
     print(task)
     dir = task
+    dir = os.path.join(file_path, task)
     #some work here
     image_paths = []
     for files in os.listdir(dir):
@@ -154,7 +155,15 @@ def runall():
         image_paths = []
     print("all directories are done")
     tk.messagebox.showinfo("showinfo", "all dirs are done")
-    
+
+
+file_path = ""
+def show_filedialog():
+    global file_path
+    root.withdraw()
+    file_path = filedialog.askdirectory()
+    root.deiconify()
+    refresh_listbox()
 
 #----------------------------------------------------------------------------
 #tkinter here
@@ -164,10 +173,17 @@ root = tk.Tk()
 root.geometry('500x500')
 
 #ask for dir
+'''
 root.withdraw()
 file_path = filedialog.askdirectory()
 root.deiconify()
+'''
 
+
+#BUTTONS
+
+btn_folder = tk.Button(root, text="Choose Folder", command=show_filedialog, width=15)
+btn_folder.pack()
 
 btn_delete = tk.Button(root, text="Delete Empty", command=delete_empty_folders, width=15)
 btn_delete.pack()
@@ -182,13 +198,16 @@ btn_makeall = tk.Button(root, text="Run all", command=runall, width=15)
 btn_makeall.pack()
 
 
+
+
+
 root.title("Make Grid")
 listbox = tk.Listbox()
 listbox.pack(side=LEFT, fill=BOTH)
 listbox.config(width=150, height=200)
 
 
-refresh_listbox() #fill in the listbox
+#refresh_listbox() #fill in the listbox
 listbox.pack()
 root.mainloop()
 
