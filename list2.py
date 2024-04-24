@@ -27,6 +27,7 @@ def delete_files(image_paths):
     for path in image_paths:
         os.remove(path)
     print("[INFO] all files are deleted")
+    
 
 def makeGrid(image_paths, gridSize, directory):
     output_path = directory + ".jpg"
@@ -133,10 +134,14 @@ def run():
     
 
 def delete_empty_folders():
-    empty_dirs = [file for file in os.listdir(".") if os.path.isdir(file) and len(os.listdir(file)) == 0]
-    for dir in empty_dirs:
-        os.rmdir(dir)
+    #global file_path
+    print(file_path)
+    empty_dirs = [file for file in os.listdir(file_path) if os.path.isdir(os.path.join(file_path, file)) and len(os.listdir(os.path.join(file_path, file))) == 0]
+    print(f"Empty dirs: {empty_dirs}")
+    for dr in empty_dirs:
+        os.rmdir(os.path.join(file_path, dr))
     refresh_listbox()
+    tk.messagebox.showinfo("showinfo", "dirs are deleted")
         
     
 def runall():
