@@ -4,6 +4,7 @@ from tkinter import filedialog
 import os
 import math
 import tkinter.messagebox
+from tkinter.messagebox import askyesno
 import PIL
 from PIL import Image
 import time
@@ -138,10 +139,14 @@ def delete_empty_folders():
     print(file_path)
     empty_dirs = [file for file in os.listdir(file_path) if os.path.isdir(os.path.join(file_path, file)) and len(os.listdir(os.path.join(file_path, file))) == 0]
     print(f"Empty dirs: {empty_dirs}")
-    for dr in empty_dirs:
-        os.rmdir(os.path.join(file_path, dr))
-    refresh_listbox()
-    tk.messagebox.showinfo("showinfo", "dirs are deleted")
+    answer = askyesno(title="confirm", message="going to delete folders Y/N?")
+    if answer:
+        for dr in empty_dirs:
+            os.rmdir(os.path.join(file_path, dr))
+        refresh_listbox()
+        tk.messagebox.showinfo("showinfo", "dirs are deleted")
+    else:
+        tk.messagebox.showinfo("info","not deleted anything")
         
     
 def runall():
