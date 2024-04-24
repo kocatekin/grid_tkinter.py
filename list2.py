@@ -10,6 +10,7 @@ from PIL import Image
 import time
 from random import randint
 import sys
+import shutil
 
 
 def resize_files(image_paths):
@@ -148,6 +149,43 @@ def delete_empty_folders():
     else:
         tk.messagebox.showinfo("info","not deleted anything")
         
+'''
+def create_new_folders():
+    cnt = 100 #100 dosyaya gore
+    selection = listbox.get('active').split(" - ")[0]
+    print(selection)
+    files = os.listdir(selection)
+    n = len(files)
+    num = int(n/cnt)
+    folder_list = []
+    for i in range(0, num+1):
+        os.mkdir(os.path.join(selection, f"{folder_{i}"))
+        folder_list.append(f"{folder_{i}")
+'''       
+    
+    
+def organize():
+    selection = listbox.get('active').split(" - ")[0]
+    #print(selection)
+    files = os.listdir(selection)
+    image_files = [os.path.join(selection, file) for file in files if file.split(".")[-1] in ["png","jpg","jpeg", "webp", "tiff", "jfif"]]
+    #print(image_files)
+    cnt = 100
+    n = len(image_files)
+    num = int(n/cnt)
+    folder_list = []
+    for i in range(0,num+1):
+        os.mkdir(os.path.join(selection, f"folder_{i}"))
+        folder_list.append(f"folder_{i}")
+
+    count = 1
+
+    for file in image_files:
+        ff = int(count / (cnt+1))
+        shutil.move(os.path.join(selection, file), os.path.join(selection, f"folder_{ff}"))
+        count += 1
+    
+        
     
 def runall():
     #get all elements in the list
@@ -207,6 +245,8 @@ btn_run.pack()
 btn_makeall = tk.Button(root, text="Run all", command=runall, width=15)
 btn_makeall.pack()
 
+btn_mover = tk.Button(root, text="Organize", command=organize, width=15)
+btn_mover.pack()
 
 
 
